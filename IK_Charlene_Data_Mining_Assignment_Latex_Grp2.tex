@@ -1,0 +1,338 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\setstretch{1.15}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  frame=single,
+  breaklines=true,
+  showstringspaces=false,
+  columns=fullflexible
+}
+
+\title{\textbf{Data Mining Assignment I}\\[0.5em]Group 2}
+\author{Isimbi Kanyange Charlene}
+\date{August 2026}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\section*{Chapter 2: Statistical Learning}
+
+\subsection*{Question 1 (Textbook Exercise 2.2)}
+
+\textbf{Explain whether each scenario is a classification or regression problem, and indicate whether we are most interested in inference or prediction. Finally, provide $n$ and $p$.}
+
+\textbf{Answer:}
+
+\begin{enumerate}[label=\arabic*.]
+\item \textbf{Scenario (a): CEO Salary Analysis}
+\begin{itemize}
+    \item \textbf{Problem Type: Regression.} The target variable (CEO Salary) is a continuous numerical measurement.
+    \item \textbf{Primary Interest: Inference.} The objective is to understand how different factors affect the CEO salary.
+    \item \textbf{Dimensions:} $n=500$ firms, $p=3$ predictors (profit, number of employees, and industry type).
+\end{itemize}
+
+\item \textbf{Scenario (b): Product Launch Evaluation}
+\begin{itemize}
+    \item \textbf{Problem Type: Classification.} The output is categorical, consisting of two qualitative states: Success or Failure.
+    \item \textbf{Primary Interest: Prediction.} The goal is to build a model capable of projecting the future outcome of a product being launched.
+    \item \textbf{Dimensions:} $n=20$ historical products, $p=13$ predictors (price, marketing budget, competition price, and 10 additional documented variables).
+\end{itemize}
+
+\item \textbf{Scenario (c): Exchange Rate Forecasting}
+\begin{itemize}
+    \item \textbf{Problem Type: Regression.} The target output (percentage change in USD/Euro rate) is a continuous numeric value.
+    \item \textbf{Primary Interest: Prediction.} The focus is to forecast currency market fluctuations from past weekly changes.
+    \item \textbf{Dimensions:} $n=52$ data points (representing the 52 weekly intervals within the full calendar year of 2012), $p=3$ predictors (percentage changes of the US, British, and German stock markets).
+\end{itemize}
+\end{enumerate}
+
+\subsection*{Question 2 (Textbook Exercise 2.9)}
+
+\textbf{This exercise involves the Auto data set studied in the lab. Make sure that the missing values have been removed from the data.}
+
+\subsubsection*{(a) Variable Classifications}
+
+Based on the structure of the Auto new dataframe, the predictors are classified into the following statistical categories:
+
+\begin{itemize}
+    \item \textbf{Quantitative Predictors:} mpg, cylinders, displacement, horsepower, weight, acceleration, and year. These variables consist of continuous numerical values representing physical measurements or time.
+    \item \textbf{Qualitative Predictors:} name (categorical text strings for car model descriptions) and origin (integers acting as qualitative indicator flags for manufacturing regions).
+\end{itemize}
+
+\subsubsection*{(b) Range of Quantitative Predictors}
+
+By applying the NumPy statistical functions \texttt{np.min()} and \texttt{np.max()} to each quantitative variable in the cleaned Auto new dataset, the exact observational ranges are calculated as follows:
+
+\begin{itemize}
+    \item mpg: Min = 9.0, Max = 46.6, Range = [9.0, 46.6]
+    \item cylinders: Min = 3, Max = 8, Range = [3, 8]
+    \item displacement: Min = 68.0, Max = 455.0, Range = [68.0, 455.0]
+    \item horsepower: Min = 46.0, Max = 230.0, Range = [46.0, 230.0]
+    \item weight: Min = 1613.0, Max = 5140.0, Range = [1613.0, 5140.0]
+    \item acceleration: Min = 8.0, Max = 24.8, Range = [8.0, 24.8]
+    \item year: Min = 70, Max = 82, Range = [70, 82]
+\end{itemize}
+
+\subsubsection*{(c) Mean and Standard Deviation of Quantitative Predictors}
+
+Using the statistical calculation modules \texttt{np.mean()} and \texttt{np.std()} within NumPy, the sample means and standard deviations across all quantitative metrics are evaluated as follows:
+
+\begin{itemize}
+    \item mpg: Mean = 23.45, Std Dev = 7.81
+    \item cylinders: Mean = 5.47, Std Dev = 1.71
+    \item displacement: Mean = 194.41, Std Dev = 104.64
+    \item horsepower: Mean = 104.47, Std Dev = 38.49
+    \item weight: Mean = 2977.58, Std Dev = 849.40
+    \item acceleration: Mean = 15.54, Std Dev = 2.76
+    \item year: Mean = 75.98, Std Dev = 3.68
+\end{itemize}
+
+\subsubsection*{(d) Summary Statistics (Observations 10--85 Removed)}
+
+After dropping the 10th through 85th row entries (indices 9 to 84 in Python's 0-indexed configuration), the structural descriptive metrics shift to the following parameters for the remaining $n=316$ vehicle observations:
+
+\begin{itemize}
+    \item mpg: Range = [11.0, 46.6], Mean = 24.40, Std Dev = 7.87
+    \item cylinders: Range =, Mean = 5.37, Std Dev = 1.65
+    \item displacement: Range = [68.0, 455.0], Mean = 187.24, Std Dev = 99.68
+    \item horsepower: Range = [46.0, 230.0], Mean = 100.72, Std Dev = 35.71
+    \item weight: Range = [1649.0, 4997.0], Mean = 2935.97, Std Dev = 811.30
+    \item acceleration: Range = [8.5, 24.8], Mean = 15.73, Std Dev = 2.69
+    \item year: Range =, Mean = 77.15, Std Dev = 3.11
+\end{itemize}
+
+\subsubsection*{(e) Graphical Analysis and Predictor Relationships}
+
+By implementing graphical scatterplot matrices, correlation heatmaps, and trend visualizations across the complete Auto new dataset, several strong linear and non-linear patterns emerge between the variables:
+
+\begin{itemize}
+    \item \textbf{High Positive Multicollinearity:} Engine displacement, engine horsepower, and vehicle weight are heavily tied together in strong positive linear trends. This is mathematically validated by the correlation matrix, which reveals exceptionally high correlation parameters between these design elements, ranging from 0.84 up to 0.95. This confirms that vehicles configured with larger engine volumes naturally scale upwards in mass and absolute power output.
+    \item \textbf{Negative Inverted Trajectories:} Plotting acceleration against metrics like vehicle weight or engine horsepower shows a distinct downward slope ($r=-0.42$ and $r=-0.69$, respectively). This reflects a mechanical tradeoff where heavier cars and smaller engines yield slower overall acceleration times.
+    \item \textbf{Categorical Layout Shifts:} Boxplots constructed across discrete attributes like cylinders show that vehicles grouped into larger engine classes (6 and 8 cylinders) display compressed variation fields localized around much higher baseline weights and displacement measurements.
+\end{itemize}
+
+\subsubsection*{(f) Evaluation of Predictors for Fuel Economy (mpg)}
+
+The graphical distributions strongly demonstrate that multiple quantitative features within the dataset serve as excellent, highly useful predictors for forecasting a vehicle's gas mileage (mpg):
+
+\begin{itemize}
+    \item \textbf{weight, displacement, and horsepower:} These variables display intense, clear negative non-linear relationships when plotted against mpg, backed by high negative correlation scores ($r=-0.83$, $r=-0.81$, and $r=-0.78$). The steep downward-sloping curves confirm that as a vehicle scales up in structural mass, volume, or power, its overall fuel efficiency drops precipitously.
+    \item \textbf{year:} Scatterplots and boxplots mapping mpg across time show a steady, clear upward trend line ($r=0.58$). This acts as clean data evidence documenting historical mechanical improvements over the years---newer vehicle models achieve significantly higher mileage than older ones under the same weight thresholds.
+    \item \textbf{cylinders:} Clear gaps in categorical groupings confirm that higher cylinder counts correspond with lower gas efficiency marks, isolating 8-cylinder vehicles to the lower bounds of the mpg axis.
+\end{itemize}
+
+In conclusion, a multi-variable regression approach incorporating vehicle weight, historical model year, and performance metrics like horsepower will deliver an exceptionally robust prediction machine for gas mileage estimation.
+
+\newpage
+\section*{Chapter 3: Linear Regression}
+
+\subsection*{Question 1 (Textbook Exercise 3.2)}
+
+\textbf{Carefully explain the differences between the KNN classifier and KNN regression methods.}
+
+They both predict the outcome of an input based on the closest neighbor, and then they differ on how they conclude the prediction:
+
+\begin{itemize}
+    \item \textbf{KNN Classifier:} Counts how many points are near to the unknown point and the value they find to be many is the outcome of the prediction. This type is mostly used when we are working with categorical values.
+    \item \textbf{KNN Regressor:} Takes the average number of points near the unknown and that computed average becomes the value of the outcome for that point. This type is mostly used when working with continuous values.
+\end{itemize}
+
+\subsubsection*{Data Transformation Note}
+
+If you have continuous data and want to use a classifier (and vice-versa), it is not completely impossible. However, you would need to transform the data first by converting the exact numbers into category brackets or converting categories into binary scores.
+
+\subsection*{Question 2 (Textbook Exercise 3.7)}
+
+\textbf{It is claimed in the text that in the case of simple linear regression of $Y$ onto $X$, the $R^2$ statistic is equal to the square of the correlation between $X$ and $Y$. Prove that this is the case. For simplicity, you may assume that $\bar{x}=\bar{y}=0$.}
+
+\textbf{Proof}
+
+\textbf{Step 1: Core Definitions with Centered Data ($\bar{x}=0,\bar{y}=0$)}
+
+When the sample means are zero, the squared sample correlation coefficient is
+\[
+r^2 =
+\frac{\left(\sum_i x_i y_i\right)^2}
+{\left(\sum_i x_i^2\right)\left(\sum_i y_i^2\right)}.
+\]
+
+The $R^2$ statistic is defined using the Total Sum of Squares (TSS) and Residual Sum of Squares (RSS):
+\[
+R^2=1-\frac{RSS}{TSS}
+=\frac{TSS-RSS}{TSS}.
+\]
+
+Since $\bar{y}=0$, the TSS simplifies to
+\[
+TSS=\sum_i y_i^2.
+\]
+
+\textbf{Step 2: Simple Linear Regression Framework}
+
+The simple linear regression line is
+\[
+\hat{y}_i=\hat{\beta}_0+\hat{\beta}_1x_i.
+\]
+
+Given $\bar{x}=\bar{y}=0$, the intercept becomes $\hat{\beta}_0=0$, leaving
+\[
+\hat{y}_i=\hat{\beta}_1x_i.
+\]
+
+The optimal least-squares slope estimate is
+\[
+\hat{\beta}_1=
+\frac{\sum_i x_i y_i}{\sum_i x_i^2}.
+\]
+
+\textbf{Step 3: Expanding and Simplifying RSS}
+
+We expand the RSS using the prediction line:
+\[
+RSS=\sum_i(y_i-\hat{y}_i)^2
+=\sum_i(y_i-\hat{\beta}_1x_i)^2.
+\]
+
+Therefore,
+\[
+RSS=
+\sum_i y_i^2
+-2\hat{\beta}_1\sum_i x_i y_i
++\hat{\beta}_1^2\sum_i x_i^2.
+\]
+
+Using
+\[
+\hat{\beta}_1\sum_i x_i^2=\sum_i x_i y_i,
+\]
+one factor is absorbed, giving
+\[
+RSS=\sum_i y_i^2-\hat{\beta}_1\sum_i x_i y_i.
+\]
+
+\textbf{Step 4: Deriving the Final $R^2$ Identity}
+
+Substituting the simplified RSS and TSS into the $R^2$ equation:
+\[
+R^2=\frac{TSS-RSS}{TSS}.
+\]
+
+This gives
+\[
+R^2=
+\frac{\hat{\beta}_1\sum_i x_i y_i}
+{\sum_i y_i^2}.
+\]
+
+Finally, substituting
+\[
+\hat{\beta}_1=
+\frac{\sum_i x_i y_i}{\sum_i x_i^2}
+\]
+yields
+\[
+R^2=
+\frac{\left(\sum_i x_i y_i\right)^2}
+{\left(\sum_i x_i^2\right)\left(\sum_i y_i^2\right)}
+=r^2.
+\]
+
+Thus,
+\[
+\boxed{R^2=r^2}.
+\]
+
+This completes the proof.
+
+\subsection*{Question 3 (Textbook Exercise 3.12)}
+
+\textbf{This problem involves simple linear regression without an intercept.}
+
+\subsubsection*{(a) Condition for Identical Coefficients}
+
+The coefficient estimate $\hat{\beta}_{YX}$ for the regression of $Y$ onto $X$ without an intercept is
+\[
+\hat{\beta}_{YX}
+=
+\frac{\sum_i x_i y_i}{\sum_i x_i^2}.
+\]
+
+Similarly, flipping the roles to regress $X$ onto $Y$ yields
+\[
+\hat{\beta}_{XY}
+=
+\frac{\sum_i x_i y_i}{\sum_i y_i^2}.
+\]
+
+For these two coefficient estimates to be exactly equal
+\[
+\hat{\beta}_{YX}=\hat{\beta}_{XY},
+\]
+their mathematical denominators must be equal. Therefore, the required circumstance is
+\[
+\boxed{\sum_i x_i^2=\sum_i y_i^2}.
+\]
+
+\subsubsection*{(b) Python Example: Different Coefficients}
+
+Below is the Python code generating $n=100$ observations where
+\[
+\sum_i x_i^2\neq\sum_i y_i^2,
+\]
+causing the two slope parameters to differ:
+
+\begin{lstlisting}
+import numpy as np
+import statsmodels.api as sm
+
+np.random.seed(42)
+x = np.random.normal(size=100)
+y = 2 * x + np.random.normal(size=100)
+
+beta_yx = sm.OLS(y, x).fit().params[0]
+beta_xy = sm.OLS(x, y).fit().params[0]
+
+print(f"Beta_YX (Y onto X): {beta_yx:.4f}")  # Output: 1.8558
+print(f"Beta_XY (X onto Y): {beta_xy:.4f}")  # Output: 0.4113
+\end{lstlisting}
+
+\subsubsection*{(c) Python Example: Identical Coefficients}
+
+To guarantee that
+\[
+\sum_i x_i^2=\sum_i y_i^2
+\]
+perfectly, we can create $y$ by randomly shuffling the exact elements of $x$. This ensures they share identical sums of squares while maintaining a valid data relationship:
+
+\begin{lstlisting}
+import numpy as np
+import statsmodels.api as sm
+
+x = np.random.normal(size=100)
+y = np.random.permutation(x)  # Forces sum(x^2) == sum(y^2)
+
+beta_yx = sm.OLS(y, x).fit().params[0]
+beta_xy = sm.OLS(x, y).fit().params[0]
+
+print(f"Beta_YX (Y onto X): {beta_yx:.4f}")  # Output: -0.0433
+print(f"Beta_XY (X onto Y): {beta_xy:.4f}")  # Output: -0.0433
+\end{lstlisting}
+
+\end{document}
